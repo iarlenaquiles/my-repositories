@@ -7,6 +7,8 @@ import { Container, Form, SubmitButton } from './styles';
 export default class Main extends Component {
   state = {
     newRepo: '',
+    repositories: [],
+    loading: false,
   };
 
   handleInputChange = e => {
@@ -15,15 +17,24 @@ export default class Main extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    const { newRepo } = this.state;
+    this.setState({ loading: true });
+    const { newRepo, repositories } = this.state;
 
     const response = await api.get(`repos/${newRepo}`);
 
-    console.log(response.data);
+    const data = {
+      name: response.data.full_name,
+    };
+
+    this.setState({
+      repositories: [...repositories, data],
+      newRepo: '',
+      loading: false,
+    });
   };
 
   render() {
-    const { newRepo } = this.state;
+    const { newRepo, loading } = this.state;
 
     return (
       <Container>
@@ -40,7 +51,7 @@ export default class Main extends Component {
             onChange={this.handleInputChange}
           />
 
-          <SubmitButton>
+          <SubmitButton loading={loading}>
             <FaPlus color="#FFF" size={14} />
           </SubmitButton>
         </Form>
