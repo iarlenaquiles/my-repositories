@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+import { Alert } from 'reactstrap';
 import api from '../../services/api';
 import Container from '../../components/Container';
 import { Form, SubmitButton, List } from './styles';
@@ -69,7 +70,7 @@ export default class Main extends Component {
   };
 
   render() {
-    const { newRepo, loading, repositories, error } = this.state;
+    const { newRepo, loading, repositories, error, messageError } = this.state;
 
     return (
       <Container>
@@ -77,7 +78,9 @@ export default class Main extends Component {
           <FaGithubAlt />
           Repositórios
         </h1>
-
+        <Alert color="danger" error>
+          {messageError}
+        </Alert>
         <Form onSubmit={this.handleSubmit} error={error}>
           <input
             type="text"
