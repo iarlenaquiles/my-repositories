@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
-import { Loading, Owner, IssueList, IssueFilter } from './styles';
+import { Loading, Owner, IssueList, IssueFilter, PageAction } from './styles';
 import Container from '../../components/Container';
 
 export default class Repository extends Component {
@@ -131,6 +131,22 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssueList>
+
+        <PageAction>
+          <button
+            type="button"
+            disabled={page < 2}
+            onClick={() => this.handlePage('back')}
+          >
+            Anterior
+          </button>
+
+          <span>Página {page}</span>
+
+          <button type="button" onClick={() => this.handlePage('next')}>
+            Próximo
+          </button>
+        </PageAction>
       </Container>
     );
   }
